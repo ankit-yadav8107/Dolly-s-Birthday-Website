@@ -1108,7 +1108,7 @@ audio {
 	100% {
 		-ms-transform:translate(0px,0px);
 	}
-}o
+}
 @keyframes bannar_come {
 	0%{
 		transform:translate(0px,-1000px);
@@ -1372,3 +1372,146 @@ audio {
     		-webkit-transform: scale(0.9);
     	}
     }*/
+
+
+/* =========================================================
+   DOLLY'S BIRTHDAY - responsive finishing touches
+   Keeps the original animation and colour classes intact.
+   ========================================================= */
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  position: relative;
+}
+
+img {
+  max-width: 100%;
+}
+
+.album-photo {
+  cursor: zoom-in;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.album-photo:hover {
+  transform: scale(1.04) rotate(-1deg);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.lightbox {
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.lightbox img {
+  display: block;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.message {
+  box-sizing: border-box;
+  max-height: 78vh;
+  overflow-y: auto;
+  padding: 12px;
+}
+
+.message p {
+  line-height: 1.25;
+  overflow-wrap: break-word;
+}
+
+.control-panel {
+  z-index: 10000;
+}
+
+.control-panel .btn {
+  margin: 3px;
+  white-space: normal;
+}
+
+@media (max-width: 767px) {
+  .message {
+    top: 58%;
+    width: 94%;
+    max-height: 68vh;
+    padding: 8px;
+  }
+
+  .message p {
+    font-size: clamp(25px, 7vw, 40px);
+    margin: 10px 0;
+    line-height: 1.2;
+  }
+
+  .balloons {
+    width: 62px;
+    height: 114px;
+    background-size: 62px 114px;
+  }
+
+  .balloons h2 {
+    font-size: clamp(25px, 8vw, 38px);
+  }
+
+  .can-zoom {
+    right: 12px;
+    top: auto;
+    bottom: 90px;
+    width: 115px;
+  }
+
+  .cake-cover {
+    margin-top: 25px;
+  }
+
+  .control-panel {
+    width: 100%;
+    padding: 8px 5px;
+  }
+
+  .control-panel .btn {
+    padding: 8px 10px;
+    font-size: 12px;
+  }
+
+  .lightbox img {
+    max-width: 96%;
+    max-height: 82%;
+  }
+}
+
+@media (max-width: 420px) {
+  .message {
+    top: 55%;
+  }
+
+  .message p {
+    font-size: 25px;
+  }
+
+  .balloons {
+    width: 48px;
+    height: 90px;
+    background-size: 48px 90px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
