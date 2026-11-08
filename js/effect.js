@@ -1,227 +1,233 @@
-$(window).load(function(){
-	$('.loading').fadeOut('fast');
-	$('.container').fadeIn('fast');
-});
-$('document').ready(function(){
-		var vw;
-		$(window).resize(function(){
-			 vw = $(window).width()/2;
-			$('#b1,#b2,#b3,#b4,#b5,#b6,#b7').stop();
-			$('#b11').animate({top:240, left: vw-350},500);
-			$('#b22').animate({top:240, left: vw-250},500);
-			$('#b33').animate({top:240, left: vw-150},500);
-			$('#b44').animate({top:240, left: vw-50},500);
-			$('#b55').animate({top:240, left: vw+50},500);
-			$('#b66').animate({top:240, left: vw+150},500);
-			$('#b77').animate({top:240, left: vw+250},500);
-		});
 
-	$('#turn_on').click(function(){
-		$('#bulb_yellow').addClass('bulb-glow-yellow');
-		$('#bulb_red').addClass('bulb-glow-red');
-		$('#bulb_blue').addClass('bulb-glow-blue');
-		$('#bulb_green').addClass('bulb-glow-green');
-		$('#bulb_pink').addClass('bulb-glow-pink');
-		$('#bulb_orange').addClass('bulb-glow-orange');
-		$('body').addClass('peach');
-		$(this).fadeOut('slow').delay(5000).promise().done(function(){
-			$('#play').fadeIn('slow');
-		});
-	});
-	$('#play').click(function(){
-		var audio = $('.song')[0];
-        audio.play();
+$(window).on('load', function () {
+    $('.loading').fadeOut('fast');
+    $('.container').fadeIn('fast');
+});
+
+$(document).ready(function () {
+
+    var vw;
+
+    // Position balloons in the centre
+    function arrangeBalloons() {
+        vw = $(window).width() / 2;
+
+        var positions = [
+            -350, -250, -150, -50, 50, 150, 250
+        ];
+
+        for (var i = 1; i <= 7; i++) {
+            var balloon = $('#b' + i);
+
+            if (balloon.length) {
+                balloon.stop(true, false).animate({
+                    top: 240,
+                    left: vw + positions[i - 1]
+                }, 500);
+            }
+        }
+    }
+
+    $(window).on('resize', function () {
+        if ($('#b11').length) {
+            arrangeFinalBalloons();
+        }
+    });
+
+    function arrangeFinalBalloons() {
+        vw = $(window).width() / 2;
+
+        var ids = ['#b11', '#b22', '#b33', '#b44', '#b55', '#b66', '#b77'];
+        var positions = [-350, -250, -150, -50, 50, 150, 250];
+
+        ids.forEach(function (id, index) {
+            $(id).stop(true, false).animate({
+                top: 240,
+                left: vw + positions[index]
+            }, 500);
+        });
+    }
+
+    // 1. Turn on the lights
+    $('#turn_on').click(function () {
+        $('#bulb_yellow').addClass('bulb-glow-yellow');
+        $('#bulb_red').addClass('bulb-glow-red');
+        $('#bulb_blue').addClass('bulb-glow-blue');
+        $('#bulb_green').addClass('bulb-glow-green');
+        $('#bulb_pink').addClass('bulb-glow-pink');
+        $('#bulb_orange').addClass('bulb-glow-orange');
+
+        $('body').addClass('peach');
+
+        $(this).fadeOut('slow').delay(5000).promise().done(function () {
+            $('#play').fadeIn('slow');
+        });
+    });
+
+    // 2. Play birthday music
+    $('#play').click(function () {
+        var audio = $('.song')[0];
+
+        if (audio) {
+            var playPromise = audio.play();
+
+            if (playPromise !== undefined) {
+                playPromise.catch(function (error) {
+                    console.log('Music could not start:', error);
+                });
+            }
+        }
+
         $('#bulb_yellow').addClass('bulb-glow-yellow-after');
-		$('#bulb_red').addClass('bulb-glow-red-after');
-		$('#bulb_blue').addClass('bulb-glow-blue-after');
-		$('#bulb_green').addClass('bulb-glow-green-after');
-		$('#bulb_pink').addClass('bulb-glow-pink-after');
-		$('#bulb_orange').addClass('bulb-glow-orange-after');
-		$('body').css('backgroud-color','#FFF');
-		$('body').addClass('peach-after');
-		$(this).fadeOut('slow').delay(6000).promise().done(function(){
-			$('#bannar_coming').fadeIn('slow');
-		});
-	});
+        $('#bulb_red').addClass('bulb-glow-red-after');
+        $('#bulb_blue').addClass('bulb-glow-blue-after');
+        $('#bulb_green').addClass('bulb-glow-green-after');
+        $('#bulb_pink').addClass('bulb-glow-pink-after');
+        $('#bulb_orange').addClass('bulb-glow-orange-after');
 
-	$('#bannar_coming').click(function(){
-		$('.bannar').addClass('bannar-come');
+        $('body').css('background-color', '#FFF');
+        $('body').addClass('peach-after');
 
-		$(this).fadeOut('slow').delay(6000).promise().done(function(){
-			$('#balloons_flying').fadeIn('slow');
+        $(this).fadeOut('slow').delay(6000).promise().done(function () {
+            $('#bannar_coming').fadeIn('slow');
+        });
+    });
 
-		// Show the album photos
-		$('.album-photo').fadeIn('slow');
+    // 3. Decorate the birthday banner
+    $('#bannar_coming').click(function () {
+        $('.bannar').addClass('bannar-come');
 
-		$('.can-zoom').fadeIn('slow');
+        $(this).fadeOut('slow').delay(6000).promise().done(function () {
+            $('#balloons_flying').fadeIn('slow');
 
-		});
-	});
+            $('.album-photo').fadeIn('slow');
+            $('.can-zoom').fadeIn('slow');
+        });
+    });
 
-	function loopOne() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b1').animate({left:randleft,bottom:randtop},10000,function(){
-			loopOne();
-		});
-	}
-	function loopTwo() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b2').animate({left:randleft,bottom:randtop},10000,function(){
-			loopTwo();
-		});
-	}
-	function loopThree() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b3').animate({left:randleft,bottom:randtop},10000,function(){
-			loopThree();
-		});
-	}
-	function loopFour() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b4').animate({left:randleft,bottom:randtop},10000,function(){
-			loopFour();
-		});
-	}
-	function loopFive() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b5').animate({left:randleft,bottom:randtop},10000,function(){
-			loopFive();
-		});
-	}
+    // Balloon movement
+    function balloonLoop(id) {
+        var balloon = $('#' + id);
 
-	function loopSix() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b6').animate({left:randleft,bottom:randtop},10000,function(){
-			loopSix();
-		});
-	}
-	function loopSeven() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b7').animate({left:randleft,bottom:randtop},10000,function(){
-			loopSeven();
-		});
-	}
-	function loopEight() {
-		var randleft = 1000*Math.random();
-		var randtop = 500*Math.random();
-		$('#b7').animate({left:randleft,bottom:randtop},10000,function(){
-			loopSeven();
-		});
-	}
+        if (!balloon.length) return;
 
-	$('#balloons_flying').click(function(){
-		$('.balloon-border').animate({top:-500},8000);
-		$('#b1,#b4,#b5,#b7').addClass('balloons-rotate-behaviour-one');
-		$('#b2,#b3,#b6',).addClass('balloons-rotate-behaviour-two');
-		// $('#b3').addClass('balloons-rotate-behaviour-two');
-		// $('#b4').addClass('balloons-rotate-behaviour-one');
-		// $('#b5').addClass('balloons-rotate-behaviour-one');
-		// $('#b6').addClass('balloons-rotate-behaviour-two');
-		// $('#b7').addClass('balloons-rotate-behaviour-one');
-		loopOne();
-		loopTwo();
-		loopThree();
-		loopFour();
-		loopFive();
-		loopSix();
-		loopSeven();
-		// loopEight();
+        var maxLeft = Math.max(100, $(window).width() - 120);
+        var maxBottom = Math.max(100, $(window).height() - 150);
 
-		$(this).fadeOut('slow').delay(5000).promise().done(function(){
-			$('#cake_fadein').fadeIn('slow');
-		});
-	});	
+        function move() {
+            if (!balloon.length || !balloon.is(':visible')) return;
 
-	$('#cake_fadein').click(function(){
-		$('.cake').fadeIn('slow');
-		$(this).fadeOut('slow').delay(3000).promise().done(function(){
-			$('#light_candle').fadeIn('slow');
-		});
-	});
+            balloon.animate({
+                left: Math.random() * maxLeft,
+                bottom: Math.random() * maxBottom
+            }, 10000, move);
+        }
 
-	$('#light_candle').click(function(){
-		$('.fuego').fadeIn('slow');
-		$(this).fadeOut('slow').promise().done(function(){
-			$('#wish_message').fadeIn('slow');
-		});
-	});
+        move();
+    }
 
-		
-	$('#wish_message').click(function(){
-		 vw = $(window).width()/2;
+    // 4. Fly the balloons
+    $('#balloons_flying').click(function () {
+        $('.balloon-border').animate({ top: -500 }, 8000);
 
-		$('#b1,#b2,#b3,#b4,#b5,#b6,#b7').stop();
-		$('#b1').attr('id','b11');
-		$('#b2').attr('id','b22')
-		$('#b3').attr('id','b33')
-		$('#b4').attr('id','b44')
-		$('#b5').attr('id','b55')
-		$('#b6').attr('id','b66')
-		$('#b7').attr('id','b77')
-		$('#b11').animate({top:240, left: vw-350},500);
-		$('#b22').animate({top:240, left: vw-250},500);
-		$('#b33').animate({top:240, left: vw-150},500);
-		$('#b44').animate({top:240, left: vw-50},500);
-		$('#b55').animate({top:240, left: vw+50},500);
-		$('#b66').animate({top:240, left: vw+150},500);
-		$('#b77').animate({top:240, left: vw+250},500);
-		$('.balloons').css('opacity','0.9');
-		$('.balloons h2').fadeIn(3000);
-		$(this).fadeOut('slow').delay(3000).promise().done(function(){
-			$('#story').fadeIn('slow');
-		});
-	});
-	
-	$('#story').click(function(){
-		$(this).fadeOut('slow');
-		$('.cake').fadeOut('fast').promise().done(function(){
-			$('.message').fadeIn('slow');
-		});
+        $('#b1, #b4, #b5, #b7').addClass('balloons-rotate-behaviour-one');
+        $('#b2, #b3, #b6').addClass('balloons-rotate-behaviour-two');
 
-		var $messages = $(".message p");   // only inside .message
-		var totalMessages = $messages.length;
+        for (var i = 1; i <= 7; i++) {
+            balloonLoop('b' + i);
+        }
 
-		function msgLoop(i) {
-			if (i < totalMessages - 1) {
-				$messages.eq(i).fadeIn('slow').delay(1500).fadeOut('slow').promise().done(function(){
-					msgLoop(i + 1);
-				});
-			} else {
-				// Last message stays + cake comes back
-				$messages.eq(i).fadeIn('slow').promise().done(function(){
-					$('.cake').fadeIn('fast');
-				});
-			}
-		}
+        $(this).fadeOut('slow').delay(5000).promise().done(function () {
+            $('#cake_fadein').fadeIn('slow');
+        });
+    });
 
-		msgLoop(0);
-	});
+    // 5. Show the birthday cake
+    $('#cake_fadein').click(function () {
+        $('.cake').fadeIn('slow');
+
+        $(this).fadeOut('slow').delay(3000).promise().done(function () {
+            $('#light_candle').fadeIn('slow');
+        });
+    });
+
+    // 6. Light the candle
+    $('#light_candle').click(function () {
+        $('.fuego').fadeIn('slow');
+
+        $(this).fadeOut('slow').promise().done(function () {
+            $('#wish_message').fadeIn('slow');
+        });
+    });
+
+    // 7. Show Dolly's birthday balloons
+    $('#wish_message').click(function () {
+        $('#b1, #b2, #b3, #b4, #b5, #b6, #b7').stop(true, false);
+
+        $('#b1').attr('id', 'b11');
+        $('#b2').attr('id', 'b22');
+        $('#b3').attr('id', 'b33');
+        $('#b4').attr('id', 'b44');
+        $('#b5').attr('id', 'b55');
+        $('#b6').attr('id', 'b66');
+        $('#b7').attr('id', 'b77');
+
+        arrangeFinalBalloons();
+
+        $('.balloons').css('opacity', '0.9');
+        $('.balloons h2').fadeIn(3000);
+
+        $(this).fadeOut('slow').delay(3000).promise().done(function () {
+            $('#story').fadeIn('slow');
+        });
+    });
+
+    // 8. Show the personal birthday story
+    $('#story').click(function () {
+        $(this).fadeOut('slow');
+
+        $('.cake').fadeOut('fast').promise().done(function () {
+            $('.message').fadeIn('slow');
+        });
+
+        var $messages = $('.message p');
+        var totalMessages = $messages.length;
+
+        function msgLoop(i) {
+            if (i < totalMessages - 1) {
+                $messages.eq(i)
+                    .fadeIn('slow')
+                    .delay(1500)
+                    .fadeOut('slow')
+                    .promise()
+                    .done(function () {
+                        msgLoop(i + 1);
+                    });
+            } else {
+                $messages.eq(i).fadeIn('slow').promise().done(function () {
+                    $('.cake').fadeIn('fast');
+                });
+            }
+        }
+
+        msgLoop(0);
+    });
+
+    // Birthday photo zoom / lightbox
+    $(document).on('click', '.album-photo', function () {
+        var src = $(this).attr('src');
+
+        if (src) {
+            $('#lightbox img').attr('src', src);
+            $('#lightbox').css('display', 'flex').hide().fadeIn('fast');
+        }
+    });
+
+    // Close photo zoom when clicking outside the photo
+    $('#lightbox').click(function (e) {
+        if (e.target === this) {
+            $('#lightbox').fadeOut('fast');
+        }
+    });
 
 });
-
-// Zoom (lightbox) feature
-$('.album-photo').click(function() {
-    var src = $(this).attr('src');
-    $('#lightbox img').attr('src', src);
-
-    // Force flex only when showing
-    $('#lightbox').css('display', 'flex').hide().fadeIn('fast');
-});
-
-// Close when clicking outside image
-$('#lightbox').click(function(e) {
-    if (e.target !== this) return; // only close if background clicked
-    $('#lightbox').fadeOut('fast');
-});
-
-
-
-
-//alert('hello');
